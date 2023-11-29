@@ -36,6 +36,7 @@ class ComposerStaticInit908eb919d93492f8ee90ca34bba85874
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Cache\\' => 10,
+            'Phpfastcache\\Tests\\' => 19,
             'Phpfastcache\\' => 13,
             'Pdp\\' => 4,
         ),
@@ -100,6 +101,10 @@ class ComposerStaticInit908eb919d93492f8ee90ca34bba85874
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Phpfastcache\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/tests/lib',
         ),
         'Phpfastcache\\' => 
         array (

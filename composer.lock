@@ -672,16 +672,16 @@
         },
         {
             "name": "phpfastcache/phpfastcache",
-            "version": "8.0.5",
+            "version": "8.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPSocialNetwork/phpfastcache.git",
-                "reference": "6d66cc0604bcbd7681ef1b3fdd1ba22901a16b1c"
+                "reference": "ad4ac950b63fd2d3368fb1204e80413969c3c2b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/6d66cc0604bcbd7681ef1b3fdd1ba22901a16b1c",
-                "reference": "6d66cc0604bcbd7681ef1b3fdd1ba22901a16b1c",
+                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/ad4ac950b63fd2d3368fb1204e80413969c3c2b8",
+                "reference": "ad4ac950b63fd2d3368fb1204e80413969c3c2b8",
                 "shasum": ""
             },
             "require": {
@@ -692,15 +692,16 @@
                 "psr/simple-cache": "~1.0.0"
             },
             "conflict": {
-                "basho/riak": "*",
                 "doctrine/couchdb": "*"
             },
             "require-dev": {
+                "ext-gettext": "*",
                 "league/climate": "^3.5"
             },
             "suggest": {
                 "ext-apc": "*",
                 "ext-couchbase": "*",
+                "ext-couchbase_v3": "*",
                 "ext-intl": "*",
                 "ext-leveldb": "*",
                 "ext-memcache": "*",
@@ -709,16 +710,16 @@
                 "ext-sqlite": "*",
                 "ext-wincache": "*",
                 "ext-xcache": "*",
-                "mongodb/mongodb": "^1.1",
+                "mongodb/mongodb": "^1.9",
                 "phpfastcache/couchdb": "~1.0.0",
                 "phpfastcache/phpssdb": "~1.0.0",
-                "phpfastcache/riak-client": "~1.4.4",
-                "predis/predis": "~1.1.0"
+                "predis/predis": "^1.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Phpfastcache\\": "lib/Phpfastcache/"
+                    "Phpfastcache\\": "lib/Phpfastcache/",
+                    "Phpfastcache\\Tests\\": "tests/lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -773,7 +774,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPSocialNetwork/phpfastcache/issues",
-                "source": "https://github.com/PHPSocialNetwork/phpfastcache/tree/8.0.5"
+                "source": "https://github.com/PHPSocialNetwork/phpfastcache/tree/8.1.4"
             },
             "funding": [
                 {
@@ -785,7 +786,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-04-05T22:24:16+00:00"
+            "time": "2023-02-11T23:32:28+00:00"
         },
         {
             "name": "psr/cache",
@@ -1364,5 +1365,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.6.0"
 }

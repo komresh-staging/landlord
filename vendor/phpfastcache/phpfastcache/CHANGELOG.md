@@ -1,3 +1,71 @@
+## 8.1.4
+#### _"Masks fell, for good.."_
+##### 12 february 2023
+- __Core__
+  - Fixed #893 // getItemsByTag() - empty after one item has expired
+
+## 8.1.3
+#### _"Don't throw the masks, yet."_
+##### 25 may 2022
+- __Core__
+  - Fixed #860 // Cache item throw an error on save with DateTimeImmutable date objects
+- __Drivers__
+  - Fixed #866 // Deprecated Method Cassandra\ExecutionOptions starting of Cassandra 1.3
+
+## 8.1.2
+#### _"Free the masks"_
+##### 04 march 2022
+- __Drivers__
+  - Fixed #853 // Configuration validation issue with Memcached socket (path)
+
+## 8.1.1
+#### _"Re-re-Vaccinated"_
+##### 21 february 2022
+- __Core__
+  - Fixed #848 // Others PHP 8.1 compatibility bugs
+
+## 8.1.0
+#### _"Re-Vaccinated"_
+##### 05 january 2022
+- __Core__
+  - Fixed #831 // Bug in the PSR-16 getMultiple method
+- __Utils__
+  - Fixed #846 // PHP 8.1 compatibility bug
+- __Drivers__
+  - Fixed #840 // Invalid type hint found for "htaccess", expected "string" got "boolean" for leveldb driver
+- __Misc__
+  - Updated some docs files (fixed typos)
+- __Tests__
+  - Migrate all Travis tests on bionic
+
+## 8.0.8
+#### _"Sanitary-passed"_
+##### 18 august 2021
+- __Core__
+  - Fixed small date issue with tag items that stays longer than necessary active in backend
+- __Drivers__
+  - Improved Mongodb driver code
+  - Improved Couchdb driver code
+  - Improved Couchbase driver code (SDK 2 version)
+  - Implemented #721 // Added Couchbase SDK 3 support (use `Couchbasev3` driver name)
+- __Misc__
+  - Increased test reliability by adding more code coverage in CRUD tests and by performing some updates on Travis CI
+
+## 8.0.7
+#### _"Vaccinated"_
+##### 12 august 2021
+- __Drivers__
+  - Improved Couchdb driver code and tests
+  - Dropped Riak support permanently (unmaintainable)
+- __Docs__
+  - Fixed vulnerability issue that cause exposed phpinfo() in some situations (@geolim4)
+  
+## 8.0.6
+#### _"Re-deconfined"_
+##### 07 july 2021
+- __Helpers__
+  - Allow $cacheItem to be retrieved by callback argument in CacheConditionalHelper (@geolim4)
+
 ## 8.0.5
 #### _"Re-re-confined"_
 ##### 05 april 2021
