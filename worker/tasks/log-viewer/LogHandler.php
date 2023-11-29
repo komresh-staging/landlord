@@ -1,237 +1,129 @@
-<?php
-
-declare(strict_types=1);
-
-namespace Php_Error_Log_Viewer;
-
-/**
- * Read, process, delete log files. Output as json.
- */
-class LogHandler
-{
-    /**
-     * Contains grouped content of the log file.
-     *
-     * @var array
-     */
-    public $content = array();
-
-    /**
-     * Index used for grouping same messages.
-     * Created via crc32().
-     *
-     * @var int[]
-     */
-    public $index = array();
-
-    /**
-     * The size of the file.
-     *
-     * @var int
-     */
-    public $filesize = 0;
-
-    /**
-     * The settings which are being applied.
-     *
-     * @var array
-     */
-    public $settings = array();
-
-    /**
-     * The default setting
-     *
-     * @var array
-     */
-    public $default_settings = array(
-        'file_path'           => '../debug.log',
-        /**
-         * Stack trace references files. Make those links clickable.
-         * Parts in double curly braces are placeholders.
-         * @see https://code.visualstudio.com/docs/editor/command-line#_opening-vs-code-with-urls).
-         */
-        'link_template'        => 'vscode://file/{{path}}:{{line_number}}',
-        'link_path_search'  => '', // This is needed if you develop on a vm. like '/srv/www/...'.
-        'link_path_replace' => '', // The local path to your repo. like 'c:/users/...'.
-    );
-
-    public function __construct($settings)
-    {
-        $this->settings = array_merge($this->default_settings, $this->handle_deprecated_settings($settings));
-    }
-
-    /**
-     * Settings-keys were previously named vscode_*. We generalized that.
-     * To support backwards-compatibility we rename the keys (vscode_foo -> code_foo).
-     *
-     * @param array[] $s settings.
-     * @return array []
-     */
-    private function handle_deprecated_settings($s)
-    {
-        if (isset($s['vscode_links']) && true == $s['vscode_links']) {
-            $s['link_template'] = $this->default_settings['link_template'];
-        }
-        foreach ($s as $key => $value) {
-            if (0 === strpos($key, 'vscode_')) {
-                $new_key = str_replace('vscode_', 'link_', $key);
-                $s[ $new_key ] = ! isset($s[ $new_key ]) ? $value : $s[ $new_key ];
-            }
-        }
-        return $s;
-    }
-
-    /**
-     * Read the log-file.
-     *
-     * @return string|false The read string or false on failure.
-     */
-    public function get_file()
-    {
-        $my_file = fopen($this->settings['file_path'], 'r');
-        $size    = $this->get_size();
-        return ( $my_file && $size ) ? fread($my_file, $size) : false;
-    }
-
-    /**
-     * Get the size of the log-file.
-     *
-     * @return int|false The size of the log file in bytes or false.
-     */
-    public function get_size()
-    {
-        if (empty($this->filesize)) {
-            $this->filesize = filesize($this->settings['file_path']);
-        }
-        return $this->filesize;
-    }
-
-    /**
-     * Get a description of any issue with the log-file. Empty string if no issue.
-     *
-     * @return string The description of the issue (or empty string).
-     */
-    public function get_file_issues()
-    {
-        if (! file_exists($this->settings['file_path'])) {
-            return "The file ({$this->settings['file_path']}) was not found. " .
-            'You can specify a different file/location in the settings (check readme.md).';
-        }
-        $mbs = $this->get_size() / 1024 / 1024; // in MB.
-        if ($mbs > 100) {
-            if (! isset($_GET['ignore'])) {
-                return( "Aborting. debug.log is larger than 100 MB ($mbs).
-					If you want to continue anyway add the 'ignore' queryvar"
-                );
-            }
-        }
-        return '';
-    }
-
-    /**
-     * Triggers preg_replace_callback which calls
-     * replace_callback function which stores values in $this->content.
-     *
-     * @param string $raw The content of the log file.
-     * @return void
-     */
-    private function parse($raw)
-    {
-        $error = preg_replace_callback('~^\[([^\]]*)\]((?:[^\r\n]*[\r\n]?(?!\[).*)*)~m', array( $this, 'replace_callback' ), $raw);
-    }
-
-    public function get_parsed_content()
-    {
-        $file = $this->get_file();
-        if (! $file) {
-            die("File is empty or can't be opened.");
-        }
-        $this->parse($file); // writes to $this->content. preg_replace_callback is odd.
-        return array_values($this->content);
-    }
-
-    public function link_files($string)
-    {
-        $string = preg_replace_callback('$([A-Z]:)?([\\\/][^:(\s]+)(?: on line |[:\(])([0-9]+)\)?$', array( $this, 'link_filter' ), $string);
-        return $string;
-    }
-
-    /**
-     *
-     * @param array $matches
-     *      0 => full match
-     *      1 => hard-drive ( windows only, like "C:" )
-     *      2 => path (from: on line")
-     *      3 => line number
-     * @return string|bool
-     */
-    public function link_filter($matches)
-    {
-        $template = array(
-            'path' => str_replace($this->settings['link_path_search'], $this->settings['link_path_replace'], $matches[1] . $matches[2]),
-            'line_number' => $matches[3]
-        );
-        $link = $this->settings['link_template'];
-        foreach ($template as $key => $value) {
-            $link = str_replace("{{" . $key . "}}", $value, $link); // apply the template.
-        }
-        return "<a href='$link'>" . $matches[0] . '</a>';
-    }
-
-    /**
-     * Callback function which is triggered by preg_replace_callback.
-     * Doesn't return but writes to $this->content.
-     *
-     * @param array $arr
-     * looks like that:
-     * array (
-     *      0   =>  [01-Jun-2016 09:24:02 UTC] PHP Fatal error:  Allowed memory size of 456 bytes exhausted (tried to allocate 27 bytes) in ...
-     *      1   =>  [01-Jun-2016 09:24:02 UTC]
-     *      2   =>  PHP Fatal error:  Allowed memory size of 56 bytes exhausted (tried to allocate 15627 bytes) in ... *
-     * )
-     * @return void
-     */
-    public function replace_callback($arr)
-    {
-        $err_id = crc32(trim($arr[2])); // create a unique identifier for the error message.
-        if (! isset($this->content[ $err_id ])) { // we have a new error.
-            $this->content[ $err_id ]        = array();
-            $this->content[ $err_id ]['id']  = $err_id; // err_id.
-            $this->content[ $err_id ]['cnt'] = 1; // counter.
-            $this->index[] = $err_id;
-        } else { // we already have that error...
-            $this->content[ $err_id ]['cnt']++; // counter.
-        }
-
-        $date = date_create($arr[1]); // false if no valid date.
-        $this->content[ $err_id ]['time'] = $date ? $date->format(\DateTime::ATOM) : $arr[1]; // ISO8601, readable in js
-        $message = htmlspecialchars(trim($arr[2]), ENT_QUOTES);
-        $this->content[ $err_id ]['msg'] = $this->settings['link_template'] ? $this->link_files($message) : $message;
-        $this->content[ $err_id ]['cls'] = implode(
-            ' ',
-            array_slice(
-                str_word_count($this->content[ $err_id ]['msg'], 2),
-                1,
-                2
-            )
-        ); // the first few words of the message become class items.
-    }
-
-    public function delete()
-    {
-        if (! file_exists($this->settings['file_path'])) {
-            return 'There was no file to delete';
-        }
-        if (! is_writeable(realpath($this->settings['file_path']))) {
-            return 'Your log file is not writable';
-        }
-        $f = @fopen($this->settings['file_path'], 'r+');
-        if ($f !== false) {
-            ftruncate($f, 0);
-            fclose($f);
-            return 'Emptied file';
-        } else {
-            return 'File could not be emptied';
-        }
-    }
-}
+<?php //002cd
+if(extension_loaded('ionCube Loader')){die('The file '.__FILE__." is corrupted.\n");}echo("\nScript error: the ".(($cli=(php_sapi_name()=='cli')) ?'ionCube':'<a href="https://www.ioncube.com">ionCube</a>')." Loader for PHP needs to be installed.\n\nThe ionCube Loader is the industry standard PHP extension for running protected PHP code,\nand can usually be added easily to a PHP installation.\n\nFor Loaders please visit".($cli?":\n\nhttps://get-loader.ioncube.com\n\nFor":' <a href="https://get-loader.ioncube.com">get-loader.ioncube.com</a> and for')." an instructional video please see".($cli?":\n\nhttp://ioncu.be/LV\n\n":' <a href="http://ioncu.be/LV">http://ioncu.be/LV</a> ')."\n\n");exit(199);
+?>
+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
+jWCaQ7QeQWTCZv0Lq/SLlprmQGS=

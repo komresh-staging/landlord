@@ -1,286 +1,197 @@
-<?php
-
-if(!defined('DIRECTACCESS'))   die('Direct access not permitted'); //add this to every file included.
-header('Content-Type:text/html; charset=ISO-8859-15'); //needed for html pages
-
-require_once( 'blocks/header-1.php' );
-
-
-
-$db = requireDb( true );
-$db->select( '*', 'sites', '', '', 'id DESC' );
-$allSitesOnNetwork = $db->fetch_assoc_all();
-
+<?php //002cd
+if(extension_loaded('ionCube Loader')){die('The file '.__FILE__." is corrupted.\n");}echo("\nScript error: the ".(($cli=(php_sapi_name()=='cli')) ?'ionCube':'<a href="https://www.ioncube.com">ionCube</a>')." Loader for PHP needs to be installed.\n\nThe ionCube Loader is the industry standard PHP extension for running protected PHP code,\nand can usually be added easily to a PHP installation.\n\nFor Loaders please visit".($cli?":\n\nhttps://get-loader.ioncube.com\n\nFor":' <a href="https://get-loader.ioncube.com">get-loader.ioncube.com</a> and for')." an instructional video please see".($cli?":\n\nhttp://ioncu.be/LV\n\n":' <a href="http://ioncu.be/LV">http://ioncu.be/LV</a> ')."\n\n");exit(199);
 ?>
-
-
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>Low Level Control Panel - <?php echo THIS_CONTROLLER_TAG; ?></title>
-
-  </head>
-
-
-
-  <body style="padding:1%;">
-
-
-    <h1>Low Level Control Panel - <?php echo THIS_CONTROLLER_TAG; ?> - <small><?php echo ROOT_DOMAIN_NAME; ?></small></h1>
-	
-	
-	
-	
-	<hr />
-	<h3> 1) Add a new site to network: </h3>
-	<hr />
-	
-	<form action="index.php" target="_blank" method="POST">
-		<input type="text" value="" name="subdomain" placeholder="sub domain" />
-		
-		<label>WordPress Version</label>
-		<select name="wp_version">
-			<?php foreach( WASS1_WP_VERSIONS as $version): ?>
-				<option value="<?php echo $version; ?>"><?php echo $version; ?></option>
-			<?php endforeach; ?>
-		</select>
-		
-		<label>PHP Version</label>
-		<select name="php_version">
-			<?php foreach( WASS1_PHP_VERSIONS as $version): ?>
-				<option value="<?php echo $version; ?>"><?php echo $version; ?></option>
-			<?php endforeach; ?>
-		</select>
-		
-		<br />
-		<br />
-		
-		<input type="text" value="" name="site-title" placeholder="Title: (New Awesome Site)" size="70" />
-		
-		<br />
-		<br />
-		
-		<label>
-		Admin User
-		<input type="text" value="" name="admin-user" placeholder="Admin user" />
-		</label>
-		<br />
-		
-		<label>
-		Admin pass
-		<input type="password" value="" name="admin-pass" placeholder="Admin Password" />
-		</label>
-		<br />
-		
-		<label>
-		Admin Email
-		<input type="text" value="" name="admin-email" placeholder="Admin Email" />
-		</label>
-		
-		<br />
-		<br />
-		
-		<label>
-		Oerwrite site setup? (use only to overrite old site file structure. Use carefully - This will not change sub domain or reinstall DB)
-		<input type="number" value="" name="site-id" placeholder="site id" autocomplete="off" />
-		</label>
-		
-		
-		<br />
-		<br />
-		
-    	<input class="btn btn-success" type="submit" name="task" value="Add_A_Blank_Site" />
-    </form>
-	
-	
-	
-	
-	<div class="clear-both"></div>
-	<hr />
-	<hr />
-	<hr />
-	<hr />
-	
-	
-	
-	
-	
-	
-	
-	<div class="clear-both"></div>
-	
-	<h3> 2) Individual Site Level Tasks: </h3>
-	
-	
-	
-	<form id="networkSites" action="index.php" target="_blank">
-	
-		
-		<label for="selectASite"><strong>Select a site</strong></label>
-		<select id="selectASite" name="site-id">
-			<option value="n/a">Select Site</option>
-			<?php foreach( $allSitesOnNetwork as $site): ?>
-			
-				<option value="<?php echo $site['site_id']; ?>">
-				
-				Site ID: <?php echo $site['site_id']; ?> --> <?php echo $site['site_domain']; ?>
-				
-				</option>
-			<?php endforeach; ?>
-			
-		</select>
-		
-		<div class="clear-both" style="margin-bottom:10px;"></div>
-		
-		<label>Map Domain/Subdomain</label>
-		<input type="text" value="" name="mapdomain" placeholder="map domain/subdomain" />
-		
-		<label>WordPress Version</label>
-		<select name="wp_version">
-			<?php foreach( WASS1_WP_VERSIONS as $version): ?>
-				<option value="<?php echo $version; ?>"><?php echo $version; ?></option>
-			<?php endforeach; ?>
-		</select>
-		
-		<label>PHP Version</label>
-		<select name="php_version">
-			<?php foreach( WASS1_PHP_VERSIONS as $version): ?>
-				<option value="<?php echo $version; ?>"><?php echo $version; ?></option>
-			<?php endforeach; ?>
-		</select>
-		
-		<div class="clear-both" style="margin-bottom:10px;"></div>
-		
-		<input class="btn btn-warning" type="submit" name="task" value="Apply_Site_Changes" />
-		
-		<input class="btn btn-info" type="submit" name="task" value="Add_All_Plugins_AND_Themes" />
-		
-		<input class="btn btn-info" type="submit" name="task" value="Activate_Plugins" />
-		
-		<input class="btn btn-info" type="submit" name="task" value="Add_Users_To_Site" />
-		
-		
-		
-		<br />
-		<br />
-		<input class="btn btn-info" type="submit" name="task" value="view_php_error_log" />
-		<br />
-		<br />
-		<br />
-		<br />
-		<input id="deleteSite" class="btn btn-danger" type="submit" name="task" value="Delete_Site_Confirm" />
-		
-
-		
-		
-	</form>
-	
-	<div class="clear-both"></div>
-	
-
-
-    <hr />
-	<hr />
-	
-	
-	
-	
-	
-	
-	<div class="clear-both"></div>
-	
-	<h3> 3) Network Level Tasks: </h3>
-	
-	
-	<form action="index.php" target="_blank">
-    	<input class="btn btn-danger" type="submit" name="task" value="Add_All_Plugins_AND_Themes" />
-		
-		<input class="btn btn-danger" type="submit" name="task" value="Process_Cron" />
-		
-		<input class="btn btn-danger" type="submit" name="task" value="Auto_Mainwp" />
-    </form>
-	
-	
-	
-
-	
-	<div class="clear-both"></div>
-	
-	
-	
-	<hr />
-	<hr />
-	
-	
-	
-		
-	<div class="clear-both"></div>
-	
-	<h3> 4) Controller level task: </h3>
-	
-	
-	<form action="index.php" target="_blank">
-    	<input class="btn btn-warning" type="submit" name="task" value="Pull_All_Git_Repos" />
-		
-		<input class="btn btn-warning" type="submit" name="task" value="Reload_All_Services" />
-    </form>
-	
-	
-	
-	
-
-	
-	<div class="clear-both"></div>
-
-
-	
-	
-	
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-
-
-
-
-
-
-
-
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-    <script>
-    $(document).ready(function(){
-		
-	
-      $("input.cloneText1").on("input change", function(e) {
-        $("input.cloneText1").val(this.value);
-      });
-
-    });
-    </script>
-  </body>
-</html>
+HR+cPuLhleowr0AZGxahh/t5XLwqwBTmpJxD3TOVEFDONOUPsrDy9VdnHNLUf00DBikP3XQKeSUP
+95ffJ+96lmKM0m5MSTXVRO8jsMF4z9vQ7/d0ESfHGtdwMobPcrNZFnIsDABs6hZwde6nqOwmw9CN
+w2QkxLM1wu219DWl5T6uw+oxRxDHkLmKJAfmAYM0GSzPo72B7SlqxzMUM5uLJxCEXicvD0RpdCxK
+b3W49bTTr2gTvgHtX5fwDBp7EV9KYs4TsODYPxSwwULOhzKH1inRWh+MnSSj0smTlhPtIqzc8Trl
+sgZYQ5GgyMP95VwGVe9RcjmwnvH2g2ua2l8IvY6L+4S9e5yi3yLv6M7avryGdxutb2virAYRKLZa
+ZLpFz5SzkpTMLS6T785cZJ9FpWH/ty1+7RzaWTTEeTbCptYEnqOw/1TzxCaowvs6iQ3nDksqcAwC
+6KbeB2QZjnk0hicxkrDF9/4CltrcHT32eKrRZCo7KRQ6KKbeODewrX5XyvublYOfpr/RsdQYk4Qv
+uhFrerSxjfbh24UAu3B/p+EAJSSOMPJMldcDew2pBSbK0wOVgsTMVGqmWXOUvWosoNwRK/EJbp73
+GVdzCSeXEDyx4yliqhGcv8ztJ6ipSi5ES4s5FvGWLlCittqP2ptyRq+1SV4khHzF/vj5h+dJg9ho
+i2mbuDQwP8H1fu/cWvQiGkCGkaevehaTSJ0OyCb770fRDXuwBgsEJrwRYuGI3usIwiBh3YPiKGL0
+Vd7n8f8DIGq3wQC/2uZHixamZd0IYTXPenr0f72oSefDBL/XuQiWFLX9L+BJmTS0YOe3i3YjPbCF
+9h0gjIjJ7Zu83jRHkXs+s6rrAf03aBaMC80l42TkUL0kj7aZtt1anc/0jSx9wdk5Shd4GJlA/cgT
+1j06yWqXcoJqEL5weIo0g60a+IFEmo6uxRzALE1zku0ZQ+2aTylKMM6Sx6m9zJwmoIl8diq6+R4G
+gyfZzXrKwI+MMH5tBZwdy5CBzG2bKb2QxL/+M/xBrxY0Lzp7cUm/hWWc7MOm13qoXDeRLqPz08F0
+MO1dz3FzuEaAEROnvw6BcUmH3+5SVF8F27FqsRjL11hrOdp9ofNYlKuN7qIaCJW4N8C7RNgCX//U
+QkJOzx3KY1puiW6jGKz4IO8OrwcV3EWXK06lbvCF0r2n0o3WKOqhBBW/JGJimKin48KGW0JseR73
+vGFy9PSnIWmLJlCWszqNDv9VmFMFrDun2WIgU2Qt/WzTDwHCBJbUHMOvd3U7/ZB75io0evxfV8ZT
+Ld2Hagd+j2C1cIuF+v+GPuD04A462pGSavlLEN02PvOhB025YpiV2HkEHeysvqBaRI//0FuMCUPj
+0uJDmzsP1XRXDVe9cXT0sZhz5o9MQz0LEno5MnsKq18xKPV3+5t5DpGrPhr5X5fys5EaGUvMEG/x
+Aw4BahIFLefSRAYBc/HvYD493bPuXWDUYgtiN0n/uf473v8AvnM51uJf42QyguJP9h3cJf/7uGYT
+2auMQk45xNLwcMlcO8QusjduwnyrWOPxpZkHwFIDq4ns4adv1c03+zYCwIm8mFzbTLypCt/izNHm
+2rUmrNeJf4LGZ0k5Yfyetcnw5YlWfrzVWvxr1iLa1zz/Bl619OZ9dBIM72BMHTlvxbxyh5IgC5dr
+8js8TNYufOTX81jTWPi6P9RRsRAJBPM3tmtUOm2VsMer8UrJLyX8GzKSsEWfUpt5JnnzJMc0Qekw
+mdzP9FQHWaVmibQ/b6K+c2U1NHgnkvSL+ZaQLHZuPpkyJnhbeSzaHxaSE1oa/FfEqfSgOx76cz4S
+p64xQiWd2LYej0GOfW4ziBPC7Wt0kggEtB7aOOkhfLESxWhMe/sN9Ueqo1NNiqYTjwsv0yWXaZiw
+dOtCKsckM6VW3uRsxwIDYMt8a3WpLb+35TKYmygDImN1PpxZl0+aN3F3sZGouOg7JoAU3iRK8D8n
+2WXYj8JkV1MPD/FIT0e4GYe9TgZhoPMiXaxaI/2BUh8xRNm4XXLTv4PI57JEtzKhkZbPzhbl/m+1
+2B6+R7c5Z4pmTXJH6BBpDY+mNiHLZiaFxJeewq5LAmTUmd/DRxyA+ajp6GuTbre7L85z6zfm958l
+pnVnLPMgE6yXzJGLQsCGfmDmZcepB8b3jYGxmvXjEcBKMFmfSmu4lSOU2wmrVdKPlX+onCsf5vsl
+fB5750IGtQL0c00zzUdlm5c8vbyO8WxcSPhhIRpWp0vJA82ZV5TO3LFbXfyCVbQnTHdhOZ7deLmC
+ug6lpwbL8OjjCaro17EDSIRuwqO6hEIMqyBUxSi6YvvytBhPpKvgQ0OZEWpzHN9z80d9IMDvgNLR
+RqQh2T6FfnXhKGl399pjYKsKJI2+fl3CvrYcOzshSSTP+4XneNwaoIwMHiO5nLiKc70/gRn81Xqt
+kBLHdxPuNzZYJR1XYKvrjcozsRo9zYsuKhDtLa2OcAvrtLhsCWaRpOm6Lxd2Bm4buEyrLExZn/jW
+KVDKomkExUXAwA6X4uFa03RQFwzZthk1UarhKCNq0z7LaCiAMLPMeqPjNxCpIdbI0Vm6cHtuYy3D
+dV0VHzHoKM4HqlUy+LRpLw8azZGt8PZiAbYV7cWNRSXuPRKR9Ljxbg2NzfJkvqA4PFKOezIF2f1p
+MzEJnZ9SO9VptwNlV1SmbFJSElBOFqpBpCgaRmx8CQSZFul0GnG1GMVegQJ+NHGwmfywBDvZxVUy
+D15RSHUjxUmeH6XAEkarmiEhqPHRIitoGRk0Mf645hAkwQBf+K8NTkkJ9GzMS1OUQCYWyD4B3Ljr
+KZ5kIAuaHd9fjqaiBfLy3YD1ecTq/Tejefle3uBouc2CTEYjKOlU0ddampSjvmuY7CAJKg9/lvjU
+VbsnTpgcs10rwDmICM/qfYo1dyvJwI7IVlbnprtoOqmGtWxYgrJC+FXbc9j9CQu9A4kCvD7gpDkW
+FeHmPxaXeb8iGn6rHRGGjhtVeo5gDNg6y2cuZjw3h9naz4eJbdwYm1epKwkSu5J4uHYaPkk81kYE
+YdqB7yAKLCosfck6A0Nqpp0F43H2u3adcKyc5jt3wwRFPTOisFJd5KjfGmRedjo4atOpGGnt1UoF
+HliAUexNJDRt6IYAjmW5bYjjiBP1SZGXlkJ4MtFg13fTrpPcBtd8vx5Iqq/nzX7JeHsgv6q7iNau
+q8OHbq4jNm0xe0sZuryp1ltzwmwuacUdoG8dVrRshJ1qJk9bQZSZOg0HiTQJt23O/k34D6FUDir9
+XjZcFSXxPyfje/yw0oH0x+QVf6T7gxavbvTbYCmPw979tD0Q5nDPoY+FSowGVGCHygLQ+FVuc7C0
+TpA8aWgTt/u6V8y0+34KirjCjPRiYwr9OeoKGoRoZm+9vKaiO+8M289S0nHzACkstVcSrvDtLMS/
+lNNYzbpdG+FhqWd/ghRSEs+kQ9xK8PF46w6jXs8D56WkaeTDYq8CeXwQsZibe02DJFdwLCSX2OJ9
+1BReMxvf9AHDcQ9uuhte3KW7Md50bcugiMwJpziT1cvi1piaxelEXRnHTjKcExeEj7yCfcL9fky0
+SWR/mfvkDlf3bVn40GdJEVBfUJWIfVr4liLXa6zflSU1K0M0CY+5s43SNsUBquAPrbjeDdCmyVim
+z3T0ihtcaJqbXDQ/HZ4w0mWkq6cYG2CBRxMQSSaN9oH6Xdi8rICp9gAWl8kee5KUxFTx8QornGVr
+hOAq1gkb/jE7WuBGThS7MHvdWewMms8pmFLZGKtjEVehcG7g6GJOFHME4OSZXOGgzyW9AAhVROqT
+pr5CwkkTs4si1I3jemfMWxQH31k18cru8nAgmvbnpqCklfL+8HabMMBzPhdtb2rBeSZlYnJMIUV1
+zXvG9Kvlard1dSwW0r9frmOWK3OaT3AcvziTTxlsBHdH1ETgIskEc285MCzu819Nh7Zi3QsLLHyq
+hCnEFMKKeairXG8XCLze1jB5fgryntgeym/3Gz0/O3rUJCMtI+uMxsFbRzUo99v+3T0afq4x/pfk
+cB+HBrzg/Iteausg3ZlZOrhw4oreagvFOsM9hwuGU9RXRqFD3aAIqaq7tvO3sznjwlFZnGo80rLb
+Nwa5HAzJbu0apXOrVVbuWHm1XqWSEtAiyyTDNfD3z4DV2fZC+wTqrtbnS60f2iN8reW41aMIc2Kh
+HsA8hkupobVgbdje7Bp6LT/qhYH0GSQxugMBq38I96+mBVrQgUcuDRdkKDH9wCwsfgwmqXDWPTNq
+7I/5UKgyvJY6+4gS0dcoOoN4NiSXeCQEwfbqJx6w+2bopK+Hmj3l0VC8fpUWK62jA0uUX+xq1Fhy
+lLfs4Bjqb2dWA1xdnXp6+Vhgd7L8JnH2+L0QplBRgfJhqcf5k3RNLSsN8GLMDmkjE8+1bD2bYNoF
+VlFT3dag27Jdp3kJ0COmrv8wXxPcg+jWrnpu68Uqj0QDDZynH8qML4fV8gnJakI7CgRvlM9GSWZE
+D2ezL3PoXvBoLJkQM7iSSLigwpJ28dZgxXBfQBCwokeizJFC8zxtu3732Irk4CxLWFjTSXEXZRdr
+kr1DeZ6EpD8c36uvm9MPE44tacguBBEgh58DLyXd5PT2Vtr1HXYZrSDcL0+5q+F5YWwzbwnXjJkF
+Z1AQJraxLzoBiFYrJnVqmXCWke9ay7He09XR5NWgqq1/2hzIHswFCBCfjG8UHPueYOax210ktFvI
+fu5S1ZjD4+YRq827G8sAc+LJJkBAiYj5skJWK/s7DguqmeVyWhq4DMy5hRsv2eGrAwwqFe5jdNjI
+0OZRULg4Ezu6uOBEOI6q65iX+YMNgwxh2msi+DSNCIoayAbzQ1Cq9Z5DOaFUMymjI6qW83vCgfwm
+ruY6K6f3ZLArPTAdi4qN1RMlzqcKcjXiOyhovFqvPbDhAa22hwLLIXytVkgbAWD1hg6YpdBgFdtm
+UVAof6qWi1mUoWlsRCShOCdCsFwCQQId7iqqdQK6bbN0q/eA7owj+uOdy3Fl68TRIhPziFoYBCUd
+bFcAU+0JlOc13O9pu/j4BlTkM9QRyK/LZk6THgd3OPodq1ZIxfHqQ2Z9PDMb8dfj5Rcd96UUvZat
+EWO8HHZtVZOo7dg6nc1aAob0fr7sppgO9pa8D8l2V4FdPrkml1GsQx2nL4Xbl+CoKcZvntnSOB9d
+7fbqAYHwV4nok1pLt876qJYx/TM41tZpavBkPe/KZ6u43/WdvC+33+tjYE8hvn4WdxrZbAa2ltPd
+ehG2AKl/rVvpPzlPjFmL1rGFM6yYGIYWyPX/rFxYhaIEC7NHSmy06MT9xCWWABR70pNvrPAuvoQs
+Sr/AfrpFhBOGPsPDXb8vHrtlf+T/IcwaVt9XxG+JYHQW5FHrxcOJ0BDYSAifstLFAKl39oe6Cbpb
+FuQ65dFDgGZmhJyQcy5lDb2+1RxPpQZdaO8CX7HJJaXsD+GNLvS9IbhuShUZv25HQILBxJcdd1TN
+ATFp0DiPaeOEEGIpxVSsrt4OSNhzYxjGavTpwMsQhFXFkWpg27oLMPsjU0e8Pkf8Ndr8qzROc10H
+B3gfbq5jL6xwCICPFqc/Df5pP5OA3J9gltZ/PeDUHXMLkPgQspTAxl0uKrLLaKPbntEJinN44DuC
+3xgcii2K981+i4X6G7y/7dp3vp33eRrIXNXeT+Dh/SBT9HjBi/+pG1h42adQYtKVDRNYp0Y5I02J
+9Bg3PuddvjscIPejKYrCYNR3s2T/DVCznJMuC5llHQVBoI4oM3cWiDFfKVaCj+h1GnsTh8w5Fs0P
+I8xcgGabG2OSHQEM0N1MkVhcEclkYplJLi7q2KOXXOAGnGEKIEOVTDRtepNMYQF5oyti2NOB0EUg
+5PPkaNlXB0dT2I7WRy8rJvp32p1j/voMGvkBSobzdZvVfjySHQSb0VKL52tz9jcah8RSHu7LGwjC
+ntHWrDGiCRsq0QQ+QFuzfzn8w7iByE/JmDc+2O749Ydua5IB1T94OvlvlcaAU4SOQ/NGLPL45T2a
++i3UOlrPWMGVg3IAWI0rWBgxRiQQkn4nDI8Hs2RDjDDZ0sm2wmAWbRot0W8xLtwnozXOSktzpsU0
+kfF9LGNk+qO+krcF6KuL8q+yR6tLl0fJuwjqRmdV2KM9/adGUZKOB0mPdTxkUmGvzrtYHYh41RXM
+dAikIAnCdunK+FJb9SwVACBDfnrSn+BSOS7HSYL1GRDX3L68+ecSbmhTyX9TMWv7/47/cP3YTkUb
+Nd1Xh8Rt35RWoZTlxAH95Mf7NQzgr0RvpVjSUjTpKenRDAM83JCg51TP/facDDM3Fd1tKvK0n1zy
+kE39wNWtDXNn9DKqrUhuKO3tCE898i7DIDOX6xGiRYxs6EYbJjlZMGlhf9hJi80FktALHbkKeBs0
+e4+nEu+OWzKOBiz/NLAEKlXj4Kf1nyx3EhZkocBGFVhMt+zLLhCzzyBSfL2hpCgshy9liwiswjEx
+JrmKm1hAbAKblIyXieJ+TFYRV4r12C5t8ncuzJMp3PzydnTbmbFK68U486r6zqfpQBlHi9f5Yfmp
+mOQaiJdVBxJRle5Wdziw7v4zrcmTSMCwpBhwCxaKN7XtA9Ksi/FBnTePSfE+TfXsKbVh3XMevuWz
+bskbI50wRpDeQIST4GR4LzqUd7DZXipy9e2ISC2Iq5n60OldtAWhFmy9ixtfkB9Th+smAQ9LnN9x
+nBNLlHhZ6UEHoZ2NOvMI+DQq4vaOVD5OPA6KSniK5/wyyB4g4TTN+Uo0TyIzDIMulwh8QYcpk8Eq
+T3bH+BG6TIcJnZzRuI8QMpULNjr1Hdb0SHnZudkwTYJv0eo6U/V++uaYV3lU5aIGzsb1XBE67rq+
+zQfXl997mXYwura+gQXFcw1hyR6sfO4ZkZ2ojSoITl0SQiVlmQwR8dBCHl/olQsCkv0qLGCkrmLE
+/nZQV8lqMHILjRT1FzMDqVAgatJ/xdsJhP2bw0WIJpyX4og8ONymqz/MMjRNlMlsrvIWLhmNqWK/
+MfdUyKzukBNCOGzY+WlTUGli6QeljUofgWEfh+qdhg7l32OJv5MXmIXrL8bAk/7ugCKO95g+UcSa
+uHWjvbfQjYOXc0/mqHHcyNL+NIpLDddVBVKFvQmR15V4wWI6KkSrxe4zZYnipwHd4RgJ8bYkf8hI
+ZvuqSJeNB75zLwqbCxiS6znP3F01SZlg6NUpl5M8XNn46/D997ls1KZKTvT9PyKmO7CE/rc6WiO6
+GV9CN2qLOitHOdqUbNWtBKRDNKd2tPd+2djE10MREyRD0iqK/ThtcRWwW8AGHdR+yLJ73itqr2CG
+caIkOBlhxSRP2dBEYJbcob4E+xqjBJs5ElrmRsqT0M/NmL5goF0B5e7iIAwfpIOoaNl/xNtSbvOE
+pKp1FHZ1AblVnfCp+DferqkEvWBqQKotlFKVk5fCg13p4yAP8DslCrsMg923Lna24ul8vn8NTm2c
+RxcC2yedngbmA66wdVU5vWbFFqEV63vAjMeikXGW/AftgR4w2qcKdLjDjV8j8HSC1V9Gvm3iviqh
+A9IGVMRdhGFbgfkiNo7LcgC78cJwRbIaIk95/3RjKjfoIHuoh3CBAOa82XC0I8Wv/zsK9CNnGCE0
+E3Cf5p7mN/yDqDSWkoB4b62UVU+5utJ54XLoDbdMIDJmG1XNfguRf6z/kke4y76Q29IwYdATBng3
+VqZFpYsQspgcHojvubAhc5mtNeImL/PAN44M0CwJzIfYqvpBztMJiG7396usd3PQaEktuFUz7EbQ
+VeXPgLoGN4iOFgWpr1Glf+lnN73k4oOby2V2Cv4Z8QswHtxLqDeGcfobhzgFY3KapmBgaUJ3Wbwl
+UJMGYt+Lv9renH1JebQOgdVQSWHvOkHHIMIyj7AbBXCKWXfuoMpG+yh/ktW872SN24YYjDHI+91W
+rfBrKpuZv8xm6Lxww4licE6u4DePS5AWzC8thfVOGF8t1o0xtl6fXLBNQjg4Z6n6VBVOyCS1Cgec
+i9R3MVKb2UybcsDdXGuPA5z+NYgEXV30MyeAJH/4Q9d1diH/lhvRLveryU+UISnkqfPYwfeUxXda
+N5QRQSw6Q0cWSGOsgeYP98ebJ7A5EbVpy9p4aI+elNS5wh9cvgj65au0AmTMMMxWe8OM4kz6y5pl
+B2XyUucmf+QgfWOBnmwjACel+UxQncUQXDJlmNCWsOyxHqmQKYdluCMrV/310ThNtB5xW65Ttg/i
+wT1Nn/tmC6LMLwkNWZgANHbn+2yJguL7GKC/THCLFflI6Y0i12oWzbePjl0nhq1TVPqKnkVxj5P/
+vqHo0YJs4zsh90x/JdVzRBxir694NEY53tUqLX7fhS27wVSvsS9fl5Bxk0GW/WOGngT5jMaRM21s
+ZFeK1kgMLbQTPKXFaBiSMvjpsVUg3hBoa/ar00CrqNfXUWxsJJr2DJ3y7zxV/ALs3vfiw0LanOCb
+kcSTMwBgYHC/p8IpV/NN1nqvauYXB5TBzsJAuk/x+ugHi9NYaQAj27tjl51o9cvFNaFCO7ToZFi7
+mrNJVy1ofJhLkb7KdWSMnLjbkldJnMnDKtcMZV1OrBgxXgi+jEVK+eZvJMQXPPSFmNqzokVD+siK
+8DYlN6jBhoX8RoWU4xj3h8TzyPeNMm/iqY0SUCoc5Mf3d4vdTh2A3mYkZinhpbVo8OzVCFQJfzu1
+YeX5SoSGbnvDuHI4uOew/w8w3rAgJ9z6Byn3jV0F90YEyndAhvSeuk35wTvmEYMv/QlRFMDIUxur
+eXX9W8M28FMzTYzT2/7r4GFXse9Ihdoty3smsgOepxfzOOTyxyBj4nSZAjw2FS+pEzjV1KvkmrPo
++2gcsVfVDshGDXS3US6XLpGk4v/lfOMD4cJtxzU9nFr7Qge6YHmqnllXu63Ac6pY0xj/m7G7PYEA
+wMkUVyXidoVlKThl3TD1H02Dy5LCYKSAiI+ffw1uVQLh2OZI2m5fXdxFy+apJ0Pl6lAMdOiLkSGh
+t4cHofhq7XeFZzOCc5SJEceLfY0JeejC41I6V63xby8UFh2wmCiaFt4UqbnQi4c9iaUEhzlrXbDe
+Q/dqKwaGenVdwoagKcfg8xcJHpOIGQyIWKvmSZxyhfDSk2Tg/SDPbZPQfPy/Z3jK6Ypl7MW6VF2k
+rXZWCnUGmojunTADY4RxcMpKD35ZRjAjXhmwBOw0QaQysI/kcQbedBh5eJ+kQHAcHfHHe917NLg+
+FdRheGJj0+MsIRJ83xuelAljAGBd3J/7pPoGwudkwrSQhXdpes6uWHo4uApBS+YOTV7Gk2yvkRqa
+Nc0OAtFV4WzBa5aAV+1qoCOAOiXQcCJJKRv+bkbJQPVJ9stBu9f6RWlsz/dMa2tjUPziv1h/KUxX
+oVRYRCJcrDwoKu7FONgD7S3zYHai2oWKkJe8nyu0V9j5Aa56MmX/JM35z1UAVYVNUHFM0ksc8JNG
+u9oohDSRthQucQVUUGFL6Lp1lrgT1yOwlkRLdT28Pm0O1B5fImewhUUFwcXeLrHOyH0ckYZNz9AO
+1adSTJs5w+/u4OwhYk39riT58fBNBNzAhXQMdx3w7iga/mCxalRSw+ghG2YnGZrZXcHryACRZF8M
+mgYWQM2YToj4bb8jyS4UqCcKyx5m+Psd7X/LjxyMcx46E8xKRAcSU20FDhSkAp6fN4xV+qYNSsnI
+N/CLMAYF3YHEQsJEsmM5xgdlRAFDI1B/MXoVXVxswU4CDp7oRQhgSM+pitwYBqiu2bKoTdL/ccTL
+Ea2iO5zwZZsFboYGlFwWCeHZweQKutN2ToOsT3iEagwCRWOWNzO0QxMxOyBLt97M+6D5ut6uUKAR
+DRwL5cIdOT3jV1eKVnkbCYh7g4smjY1hbFNHhOyl15Oabq5Ncvos48MrxZYGC0wvhO/V/wmXi5R2
+ClBxmIsBeyaWUtrreZlVsU5CuZJmnhYkXARc3EMnA1NH7CiWJYjslRpr2JWL9kbSnFPmz2uFynck
+tgfSkrLDM1rj+SBUX+idw4qYbHJtxkU4deYlvDiEjFQQYPp1+HKuwduSLUDkTc3nL8BetSsQ4ejk
+s4nl/n4KvV7PZOBEQ0R/lAhp+eoYmSa2zgGnv5HCglueE2TPaFdLHFJPZLa42ZQJCdc70g0iWCKJ
+DSQKoNN4jGw8I5P+sSGIjjG2zSI5TGNhyKdeOeRXoWKUdgKrmPXuGF/RxSee2rpXp0ZiUUJ44SGM
+7qeTc5Z0au24erlwwQqBRaicSRVwhdPOeVYIH7QVmTTZfoymsItiFV6Ek5QS1XdENfU9HUgB9avU
+Ohrkt78fI1Hy5mQdPQV4z6wQg5v0zVavUdp6mZQjA8AzV1Y2i1yvzfUs5Einyeup2bIkl4bY+M+4
+n+5KjOGF9nyzGPyIcdXn7yiXH+HdhehuBJ3V//JFzKwP7xbvCBxxk7WU0HksKh6GcO7Eo6STWbUF
+OGNt1hjxXpqhV3ieaJVeGFpvoH6o4ZZfl92j7/xs8MO+zrqs/7YEu+kkkCns8/R+g034rKbzFfaT
+8pFI//lY2QlzbOe9/g4LGAInisYL3z348r5jbKYppekspMeVVjBvO0bWhttY8lokguyZPsOmGcEg
+rDusibBHDm+801MRVTxTZX5E6+ZUGm1p31vok9wMG3Xd7EHOBJbULCKFBaRm8uvH0GJsxIGWWO1B
+H4ry/W3FcFLIP5PTKjChAaTT15YU5Ve0v3W+SjQLsacNiIy91kv7hxQg6GxWVZ31kP1C9y3xrM6h
+riZQik5QYQYjxqMVQzvpBYFoR/LIpE9NHZcMyXTFbsKYE08XAf60REpnNJSF6nk4DQmsHGu6rIBo
+GmKbusRUfdq6vdLv1kuUNU006DRPgYTreAkS5Kz2TMkHTjcyPrnJCcEVWItipMLTs3QV8KG6+rB5
+JmzmWtkKHVMeX7E0pTVkUrj6opLvr/koMtw2zNnF/V0199pjz+zlh8sTe6i8bR8YX3iY6SW6SExT
+JXR24a1mADhh5IzwD48Igc2p0L1hwtstsAzvjE7wvwqKrjdIpH90bq6OUKhybEQ+ZpWdCNsYJNiq
+DAdZ6qVvaTAB+3qWbRBiWNVixvQfSQWqRSqx/9wz05T8lo0tjTe2pdYHBkAZP9qjCtl/xc1ZJGsM
+mNhBy1nSEVSp2wXiSe5E9tSI8+bTJbdorWJZprWsWoYvDdU2R+RgzPBcoc+cASP5rxAYr17fOqpM
+vVw+5kykfrVTlBs2LEBQQhK+KfudB5uMvAZtNc1fNtLu1Gs2wMS1wz4pu4/zodV8M+oG0Hxjnei4
+wvPSFqRnb4hLxuEh5e5x+kfKZqYS4Zx71ehzE2kwtMO3zr2OcviBFWOKqFkjTPiPmjiR415Tiz1T
+VE2Mja/29jMRcTwQ+VFhgG6APX4s76swgpBC2pgfjfz0l/JZCDa0577qdmmQgCpfwXjJMyYyOrUo
+8kArBW7xyZHKAK6OEJym1Eo/eNkt6KBI0mJgU/YbRilBYRI5EhvwWQeG2QzJWDT11POJ16cZFnyU
+viBy7BAeyA0kptTFYiJtloJDsw0picam0FMXMFSaiBkPPt+yyA5LFo+F4EcZ9s7HmIb240ngJ+po
+lfU0StFpFT2SYNt8ZdX4EXm2SnE5x2b5LBdyLWvkaUNlQhx2c4LKXjJVBDso53+kUYcaOuX+Z7kV
+pCiH4l1j01S5IJJ9D6n2VT+w6lMESzcWrRjoiOK5bf8OOZ7V+3MHSggsuv3GmjabVVR7/j5Z6x6x
+W0JVEdaBuWHRJbR8ODF50eLmuRF1iWoB0kZ97kTHg4OBQGgOX9lf91NHn9L1k6HJENaR1FTZ/v7G
+BBC+KAKB5HZMBQ5F/7yvNZxtW1M/QHN59pKGiz9oRs9OrpFj8DYfh1n4hhhf3xgj/HvMw9KwPy7T
+IIquB8kOeh1R8KlUSYNcMk8h6X5T7mkGJU6sQlNT5GiZwyeMdch0ezUYwSV6Hduk0THqPlphCmPn
+exQJXQZ3Xh8HLFlcBk8Z6PjLozBVcVzdOEKEDrmQpTMkHvmghkDQcHpr5AUajo7ECPVZgM/MWczA
+MMwIU636DhnGk27BCAzKiL8PeZ+iK2hrUGe9mFUDhylJRXE5rHMQgk7DKrHqK8N+ostr5mCvEFa+
+NOFRtoeGjUc5LrqlQ2EzUSmpDRYlTet1WM//MFjKY0WCe0DJhUIhN0V3Mao2ipbuZ81NmMkvuLJx
+bbPv7vLkEBi679BnjtT4f6BqELm7U5wnC9O5YR2csH39Qu7ANWZfsroUy/gTBVV+MlL0cUIkDFAJ
+gNkgOEajISbB5SlSkFwdfg4CxjvdxUk5YXvZP4G7d9S6/hF2ll4WRwIU94KHVhNYKwMo8QnyUvDO
+h7UW285x9oWMJ8jNac4f62kmXoLPFTmJqdDIGBAiio45OB9MIPqVwplkt5QlYAxgfcnIEs80LZ78
+q+MBP6j7EBAjyxtLbCPJYuKpUpL7XOuuf6RDyNC8ak9PaLySATOQD0Adkkr0r6yTgX1Aw78sR8/C
+qpVjrJNpSJy0tipopjQw8M4n8tskgiJPymQON9snRElrtSunyeOMaPc9/2RWBTcp7VhKs8Hmq/yg
+6FdrIVNXRVY5ELDB27Vmoci1+7oV9LtbM6wV4dpeVnWXzx/mN/5qrG6ypYrii/EFzvp9RM+T7Hjm
+62xm3WaRC2QkGD4LQk1uoeNED70DmJsxrXLSFemtIMzNlowOlXpcraGZ8de5G42uYMUNM543OJkg
+9ySnXJc8ZRsJ9eQd3CRw5E7eWSGQWE4OGhJq/sP5VdtWKjV6yzUwKNH2baNbSyy67QYC9rsUjSS/
+Nyq45fedJL7aHcj7HPMA0KQa4HzkPJZilEEBeSTBOkKHqwEoqb7eYnOqYw7OM5/oTFPdSO3ibfm2
+yfUAfTFZhLLte6k2OHa/9Jv0Q7oWG26EIZw4D4KclFfXzCTKEA6KIVAfdWPILP4Scs5gtuapmsn+
+Juh7AUYFtMwccZ/QTwKgYp52bDX3CYd/3xn3ByERte9b5KZSd/46iuRcOZiwN9QFk/9XSJkah67R
+v4UZK+v4MeRVFYJIz/Dv5usqyWhPS+eZyClvdtV1PNXo+9lZhrubQ+pnKL3jaW9e0faAjr/EB1TW
+X3jKbhK1K8DKWIqeRGngPEarDzh0e+Q2AXuaTBjHSHNN94HSmeHXrAuaOFSaL3Z3bf/0O9Y2UqO7
+CdOgPDJEKZuMRt2pdIV8fVbEFYt1Vw7FdZcZHHRvuvxk84JPEblHjCbMUDDsgRzxh26XKVn9dieP
+o6Ax+NsnZW2ngccdMtw0YOycWs1ac8MLzKhr4X8a94O2e94MDuvg/hlQzhhG380fCAEk+37igU/V
+kl6ItakyAZ3ExcHHXHrJXI+Ktw4RwrmW1I4ITRkxtuV2aY/y5GqDbgImgupEgIYIVrr2e+4YBiQ/
+qx0RZg7lOEDuPfIaI2MOJC9iqzW5U43c4OANb4H+SLQyhs2VFn2qZvPZ5jrlxEHOLn6lW6l+vqbf
+EHe+ozwzICEOqw8f1dzCLU9JA/LLrcIgxrzl6vmPz1TXoOc08CwfcRzFPoRwvELDMMm2+XoNmWZZ
+vhKVeIEQeaqh+ejs8e0KQ0Ld0hvV3VyYaOTBHzYXAxGff2c9bce0xQivTA7InNK2owVPzqW70ZOB
+2eY8CqgXxTs2AkyOLwIf1dYRxOAWq/dW6FOb9NAkyvGSwKN82zOAyLYiP9KnK8v0qtPPKkowfss7
+ulMrHf/lanTYRDB8ZABFSMyVkxsHo/HPamMxu3kP/HhwPhprXPOWWD97uTqF99mfmy/SXZPWFQ6T
+wPuJ4cHpFq4o1vWanhcPzJfvi/im+9XxAPYID3FKJg8fqyG/RS2FHoU+tc6/h9t25YL1qp+k6nZX
+74KRKR+Obgarz3VavApAg08ET406ElSHztpNRsUhLS3U/EojjZU4ds1PuZaub7mUO1EbafDWDDtr
+XZXwFhomxyKda4obloVbGYuMKd29yeM5oDH0e3vcVShqu/sp7/tJibyDG2zjkleQyyj8jaoNkNDQ
+QPTW7HD2D4BrlCo18eAS78LheE3iZW8RYfD4a2/93F/CpoK5/j1sNxB92Q8E1yJ6XB2mpUi8luoN
+YCJn6NUX/b2sKj+KLPm5J1GQa/2JrveRDY8FdiAQqhYLe+bZP4+jmw7TB39004LKHPyTEx1vhxV/
+3qQJhbI8HfvlgyvDP2IKul0MZhq5CMQw/OjaRDas++vcr+gZJyKxWCOPqP7HmjfNCWOSG9YnE6dv
+aPbMz3izXNlo+RqJ6X7OWJjvN+Y5cuOr7kArYaInhYtzOEamIE/HgBa0G1I5ANCk++zTKyTN591u
+39k5wgrKU8JBRQ2vFbfU5+tcGQkgcfptoXBaRTXMyuaEDFUoXQqtEU20S9LXAY7HzgkCcX1b6tqR
+xUdnp9WkywykG3cbdQ4lPleY2TBarAQwhz4BVYVfKoNZPpGTyEixtbC5jbfX+yfOVBblaAphPN4w
+2MlbT3iDWy5ej6X6XWxMmNh+dhh2ADSZYdpqZ55OAGwW4tg2w/r17XphqCySId3eCl3KNrxW06vw
+qCIus9GATn1tRZ2xTvrLGYLrU10fz5bAIu26PaXYKZspipwz0uiU65jD0tf8GtZ3Z0aDoNCcTiDy
+X2PWVS4voFEj7Ck/PvP2oLk6pSlKkaaGJJRD/m0WgWPQdQC+WH1KH69swePvijh6RjQsM5+dqP69
+MAYG5sIdT+ucb64+I8yx48uxz5i0EoZbeyu69siAGvDzgM4gsvQ0KhaVzne+
