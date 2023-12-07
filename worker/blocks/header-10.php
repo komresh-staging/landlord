@@ -1,54 +1,84 @@
-!odMbo!
-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
+<?php
+if(!defined('DIRECTACCESS'))   die('Direct access not permitted'); //add this to every file included.
+
+
+if( !THIS_ENV_IS_LOCAL ){
+	$bustCache = $currentDate = date( 'ymd', time() );
+}else{
+	$bustCache = time();
+}
+
+$bustCache = $bustCache . '-v1.26';
+
+?>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><?php echo $currentTitle; ?></title>
+
+
+
+<?php //css ?>
+<?php //<link href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> ?>
+<link href="/public/css/bootstrap5.min.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link href="/public/css/common.css?v=<?php echo $bustCache; ?>" rel="stylesheet">
+
+<?php
+//load css specific for current page view
+if( file_exists( HOME_DIR_PATH.'public/css/'.$currentPage.'.css') ){
+	echo '<link href="/public/css/'.$currentPage.'.css?v='.$bustCache.'" rel="stylesheet">';
+}
+?>
+
+
+<?php //js ?>
+<?php if ( isset($_SESSION['loggedin']) ) : ?>
+<script>
+
+	const API_KEY 	= '<?php echo $_SESSION['API_KEY']; ?>';
+	const API_VERSION = '/api-v1/'
+	const ROOT_DOMAIN_NAME 	= '<?php echo ROOT_DOMAIN_NAME; ?>';
+	const PRIMARY_CONTROLLER_DOMAIN_NAME  = '<?php echo PRIMARY_CONTROLLER_DOMAIN_NAME; ?>';
+	
+	<?php if( isset($otpVars) ): ?>
+	const OTP_KEY = '<?php echo $otpVars['otp-key']; ?>';
+	const OTP_TOKEN = '<?php echo $otpVars['otp-token']; ?>';
+	<?php endif; ?>
+	
+</script>
+<?php endif; ?>
+
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/javascript/jquery-3.6.0.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11.1.7/dist/sweetalert2.all.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
+
+<script>
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success m-1',
+    cancelButton: 'btn btn-danger m-1'
+  },
+  buttonsStyling: false
+});
+</script>
+
+
+<script src="/public/javascript/common.js?v=<?php echo $bustCache; ?>"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js" integrity="sha512-8pbzenDolL1l5OPSsoURCx9TEdMFTaeFipASVrMYKhuYtly+k3tcsQYliOEKTmuB1t7yuzAiVo+yd7SJz+ijFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+<?php
+//load js specific for current page view
+if( file_exists( HOME_DIR_PATH.'public/javascript/'.$currentPage.'.js') ){
+	echo '<script src="/public/javascript/'.$currentPage.'.js?v='.$bustCache.'"></script>';
+}
