@@ -206,9 +206,9 @@
             'dev_requirement' => false,
         ),
         'stefangabos/zebra_database' => array(
-            'pretty_version' => '2.10.1',
-            'version' => '2.10.1.0',
-            'reference' => 'b8fe335043e8bd496f6c78d27a13b3e194a03bb4',
+            'pretty_version' => '2.11.1',
+            'version' => '2.11.1.0',
+            'reference' => '3e4a6fd7fa222aa6f5d69d75f1edcf7434b7164d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../stefangabos/zebra_database',
             'aliases' => array(),

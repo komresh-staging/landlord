@@ -2,7 +2,7 @@
     "require": {
         "cloudflare/sdk": "^1.1",
         "aws/aws-sdk-php": "^3.171",
-        "stefangabos/zebra_database": "^2.9",
+        "stefangabos/zebra_database": "^2.11",
         "jeremykendall/php-domain-parser": "^5.6",
         "phpfastcache/phpfastcache": "^8.0",
         "mikehaertl/php-shellcommand": "^1.6",

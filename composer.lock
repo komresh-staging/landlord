@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c614fdf5d80902674972999100781485",
+    "content-hash": "d6cbff21591fc300a85bf76d047faa3f",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1314,16 +1314,16 @@
         },
         {
             "name": "stefangabos/zebra_database",
-            "version": "2.10.1",
+            "version": "2.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stefangabos/Zebra_Database.git",
-                "reference": "b8fe335043e8bd496f6c78d27a13b3e194a03bb4"
+                "reference": "3e4a6fd7fa222aa6f5d69d75f1edcf7434b7164d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stefangabos/Zebra_Database/zipball/b8fe335043e8bd496f6c78d27a13b3e194a03bb4",
-                "reference": "b8fe335043e8bd496f6c78d27a13b3e194a03bb4",
+                "url": "https://api.github.com/repos/stefangabos/Zebra_Database/zipball/3e4a6fd7fa222aa6f5d69d75f1edcf7434b7164d",
+                "reference": "3e4a6fd7fa222aa6f5d69d75f1edcf7434b7164d",
                 "shasum": ""
             },
             "require": {
@@ -1337,7 +1337,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-3.0"
+                "LGPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -1361,9 +1361,15 @@
             ],
             "support": {
                 "issues": "https://github.com/stefangabos/Zebra_Database/issues",
-                "source": "https://github.com/stefangabos/Zebra_Database/tree/2.10.1"
+                "source": "https://github.com/stefangabos/Zebra_Database/tree/2.11.1"
             },
-            "time": "2021-01-07T19:03:07+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/stefangabos",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-01-28T09:03:49+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",

@@ -1,6 +1,31 @@
+## version 2.11.1 (January 28, 2024)
+
+- version bump
+
+## version 2.11.0 (January 27, 2024)
+
+- the library can now log queries run via AJAX requests; see the newly added [debug_ajax](https://stefangabos.github.io/Zebra_Database/Zebra_Database/Zebra_Database.html#var$debug_ajax) property
+- debug information is now also shown when running in CLI (when [debugging](https://stefangabos.github.io/Zebra_Database/Zebra_Database/Zebra_Database.html#var$debug) is enabled, of course)
+- added a new [debug_show_database_manager](https://stefangabos.github.io/Zebra_Database/Zebra_Database/Zebra_Database.html#var$debug_show_database_manager) property for editing queries in your favorite database manager
+- the "unsuccessful queries" tab is now open by default if there are any unsuccessful queries
+- fixed [#79](https://github.com/stefangabos/Zebra_Database/issues/76) where the library would try to connect to the database even when using lazy connection because of the logic in the `free_result` method; thanks to [Brian Hare](https://github.com/BHare1985) for reporting!
+- fixed an issue where having the `debug` property set to a `string` but debugging not being activated, would result in errors not being logged
+- fixed bug where the library would try to `EXPLAIN` queries that could not be explained; like `SHOW TABLE` for example; see [#76](https://github.com/stefangabos/Zebra_Database/issues/76) - thank you [cosinus90](https://github.com/cosinus90)!
+- fixed potential warnings being thrown in PHP 8; see [#74](https://github.com/stefangabos/Zebra_Database/pull/74) - thank you [Rémi](https://github.com/Revine-dev)!
+- fixed a potential issue when encountering connection errors
+- updated the CSS and the icons for the debug interface
+
+## version 2.10.2 (May 13, 2022)
+
+- fixed a deprecation warning shown in PHP 8.1+; see [#70](https://github.com/stefangabos/Zebra_Database/issues/70), thanks [Harry](https://github.com/Dibbyo456)
+- fixed a potential bug with `INC` keyword being incorrectly detected in strings looking like `INC(foo)`
+- fixed EXPLAIN not working in the debug console
+- fixed debug console being always shown once enabled via string
+
 ## version 2.10.1 (January 07, 2021)
 
 - fixed bug introduced in previous release, for the [implode](https://stefangabos.github.io/Zebra_Database/Zebra_Database/Zebra_Database.html#methodimplode) method; see [#65](https://github.com/stefangabos/Zebra_Database/issues/65), thanks [pbm845](https://github.com/pbm845)
+
 ## version 2.10.0 (December 23, 2020)
 
 - added option for enabling debugging on the fly via a query string parameter - see [documentation](https://stefangabos.github.io/Zebra_Database/Zebra_Database/Zebra_Database.html#var$debug)
